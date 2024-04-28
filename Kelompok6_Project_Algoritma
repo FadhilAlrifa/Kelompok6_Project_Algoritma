@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+int saldo = 1000000;
+
+void cekSaldo() {
+  printf("Sisa saldo anda saat ini : Rp.%d\n\n", saldo);
+}
+
+void tarikUang() {
+  int jumlahPenarikan;
+
+  printf("Masukkan jumlah uang : "); scanf("%d", &jumlahPenarikan);
+
+  if(jumlahPenarikan <= saldo) {
+    saldo -= jumlahPenarikan;
+
+    printf("Penarikan sebesar Rp.%d berhasil.\n\n", jumlahPenarikan);
+  } else {
+    printf("Maaf saldo anda tidak cukup\n\n");
+  }
+}
+
+void transfer() {
+  char namaBank[50];
+  char nomorRekening[20];
+  int jumlahTransfer;
+
+  printf("Masukkan nama bank tujuan: ");
+  scanf("%s", namaBank);
+
+  printf("Masukkan nomor rekening tujuan: ");
+  scanf("%s", nomorRekening);
+
+  printf("Masukkan jumlah yang ingin Anda transfer: Rp.");
+  scanf("%d", &jumlahTransfer);
+
+  if (jumlahTransfer <= saldo){
+    saldo -= jumlahTransfer;
+    printf("Transfer sebesar Rp.%d ke %s (%s) berhasil.\n\n", jumlahTransfer, namaBank, nomorRekening);
+  } else {
+    printf("Maaf, saldo Anda tidak mencukupi untuk transfer ini.\n\n");
+  }
+}
+
+
+int pilihMenu() {
+  printf("=== Menu ATM ===\n");
+  printf("1. Cek Saldo\n");
+  printf("2. Transfer\n");
+  printf("3. Tarik Uang\n");
+  printf("4. Selesai\n");
+  printf("================\n\n");
+
+  int i;
+  printf("Masukkan pilihan : ");
+  scanf("%d", &i);
+
+  return i;
+}
+
+int main() {
+
+  char pin[10]; // Sebagai tambahan, pin harus memiliki ukuran 7 untuk menampung 6 digit dan karakter nul-terminator
+  char confirmPin[10];
+
+  int help = 0;
+
+  while (help == 0)
+  {
+
+    printf("Buat PIN ATM Anda (6 digit): ");
+    scanf("%s", pin);
+
+    if (strlen(pin) != 6 && strlen(pin) < 6)
+    {
+      printf("PIN harus terdiri dari 6 digit. Silakan coba lagi.\n");
+    } else if(strlen(pin) > 6) {
+      printf("PIN Tidak boleh lebih dari 6 \n");
+    } else if(strlen(pin) == 6) {
+      printf("Konfirmasi PIN Anda: ");
+      scanf("%6s", confirmPin);
+    } 
+
+
+    if (strcmp(pin, confirmPin) == 0) {
+      printf("PIN berhasil dibuat.\n");
+      help++;
+    }
+
+  }
+
+  int pilihan;
+
+  do {
+    // menu();
+    pilihan = pilihMenu();
+
+    switch(pilihan) {
+      case 1:
+        cekSaldo();
+        break;
+      case 2:
+        transfer();
+        break;
+      case 3:
+        tarikUang();
+        break;
+      case 4:
+        printf("Terima kasih telah menggunakan layanan ATM");
+        break;
+      default:
+        printf("Opsi tidak valid. Silakan pilih kembali.\n");
+    }
+  } while(pilihan != 4);
+
+
+
+  return 0;
+}
